@@ -1,0 +1,15 @@
+{
+  "name": "sorting_visualizer",
+  "version": "1.0.0",
+  "description": "This project will help visualize some of the famous sorting algorithms",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
