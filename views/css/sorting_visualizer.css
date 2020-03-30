@@ -1,0 +1,15 @@
+.bar-container {
+    height: 750px;
+    position: relative;
+    top: 100px;
+    margin: auto;
+    width: 1200px;
+    text-align: center;
+}
+
+.number-bar {
+    width: 2px;
+    background-color: aqua;
+    display: inline-block;
+    margin: 0px 1px;
+}
