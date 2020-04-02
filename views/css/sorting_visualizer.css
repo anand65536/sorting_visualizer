@@ -9,7 +9,7 @@
 
 .number-bar {
     width: 2px;
-    background-color: aqua;
+    background-color: blue;
     display: inline-block;
     margin: 0px 1px;
 }
