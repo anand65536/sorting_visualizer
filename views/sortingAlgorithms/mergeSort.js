@@ -5,41 +5,15 @@ const mergeSort = nums => {
     return animations;
 };
 
-const mergeSortHelper = (
-    nums,
-    auxiliaryArray,
-    startIndex,
-    endIndex,
-    animations
-) => {
+const mergeSortHelper = (nums, auxiliaryArray, startIndex, endIndex, animations) => {
     if (startIndex === endIndex) return;
     let middleIndex = Math.floor((startIndex + endIndex) / 2) + 1;
-    mergeSortHelper(
-        auxiliaryArray,
-        nums,
-        startIndex,
-        middleIndex - 1,
-        animations
-    );
+    mergeSortHelper(auxiliaryArray, nums, startIndex, middleIndex - 1, animations);
     mergeSortHelper(auxiliaryArray, nums, middleIndex, endIndex, animations);
-    doMerge(
-        nums,
-        auxiliaryArray,
-        startIndex,
-        middleIndex,
-        endIndex,
-        animations
-    );
+    doMerge(nums, auxiliaryArray, startIndex, middleIndex, endIndex, animations);
 };
 
-const doMerge = (
-    nums,
-    auxiliaryArray,
-    startIndex,
-    middleIndex,
-    endIndex,
-    animations
-) => {
+const doMerge = (nums, auxiliaryArray, startIndex, middleIndex, endIndex, animations) => {
     let i = startIndex,
         j = middleIndex,
         k = startIndex;
