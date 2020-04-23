@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./../css/sorting_visualizer.css";
 import mergeSort from "./../sortingAlgorithms/mergeSort";
 import bubbleSort from "./../sortingAlgorithms/bubbleSort";
+import heapSort from "./../sortingAlgorithms/heapSort";
 
 class SortingVisualizer extends Component {
     constructor(props) {
@@ -49,7 +50,9 @@ class SortingVisualizer extends Component {
                 const [newIndex, newHeight] = animations[i][1];
 
                 setTimeout(() => {
-                    barsFromDom[newIndex].style.height = `${newHeight}px`;
+                    const currentState = [...this.state.array];
+                    currentState[newIndex] = newHeight;
+                    this.setState({ array: currentState });
                     barsFromDom[newIndex].style["background-color"] = `red`;
                 }, i * speed + speed / 2);
 
@@ -87,10 +90,9 @@ class SortingVisualizer extends Component {
                 }, i * speed + speed / 4);
 
                 setTimeout(() => {
-                    let tmp = barsFromDom[firstBar].style.height;
-                    barsFromDom[firstBar].style.height =
-                        barsFromDom[secondBar].style.height;
-                    barsFromDom[secondBar].style.height = tmp;
+                    const currentState = [...this.state.array];
+                    [currentState[firstBar], currentState[secondBar]] = [currentState[secondBar], currentState[firstBar]];
+                    this.setState({ array: currentState });
                 }, i * speed + speed / 2);
 
                 setTimeout(() => {
@@ -106,6 +108,36 @@ class SortingVisualizer extends Component {
         }
     }
 
+    heapSortWrapper() {
+        const currentState = [...this.state.array];
+        const animations = heapSort(currentState);
+        const barsFromDom = document.getElementsByClassName("number-bar");
+        for (let i = 0; i < animations.length; i++) {
+            let [firstBar, secondBar] = animations[i];
+            let speed = 6;
+            setTimeout(() => {
+                barsFromDom[firstBar].style["background-color"] = `aqua`;
+                barsFromDom[secondBar].style["background-color"] = `aqua`;
+            }, i * speed);
+
+            setTimeout(() => {
+                barsFromDom[firstBar].style["background-color"] = `red`;
+                barsFromDom[secondBar].style["background-color"] = `red`;
+            }, i * speed + speed / 4);
+
+            setTimeout(() => {
+                const currentState = [...this.state.array];
+                [currentState[firstBar], currentState[secondBar]] = [currentState[secondBar], currentState[firstBar]];
+                this.setState({ array: currentState });
+            }, i * speed + speed / 2);
+
+            setTimeout(() => {
+                barsFromDom[firstBar].style["background-color"] = `blue`;
+                barsFromDom[secondBar].style["background-color"] = `blue`;
+            }, i * speed + (speed * 3) / 4);
+        }
+    }
+
     render() {
         const { array } = this.state;
 
@@ -113,34 +145,24 @@ class SortingVisualizer extends Component {
             <div className="bar-container">
                 {array.map((value, index) => {
                     return (
-                        <div
-                            className="number-bar"
-                            key={index}
-                            style={{ height: `${value}px` }}
-                        ></div>
+                        <div className="number-bar" key={index} style={{ height: `${value}px` }}></div>
                     );
                 })}
 
-                <button
-                    onClick={() => {
-                        this.resetArray();
-                    }}
-                >
+                <button onClick={() => { this.resetArray(); }}>
                     Generate New Array
                 </button>
-                <button
-                    onClick={() => {
-                        this.mergeSortWrapper();
-                    }}
-                >
+
+                <button onClick={() => { this.mergeSortWrapper(); }}>
                     Merge Sort
                 </button>
-                <button
-                    onClick={() => {
-                        this.bubbleSortWrapper();
-                    }}
-                >
+
+                <button onClick={() => { this.bubbleSortWrapper(); }}>
                     Bubble Sort
+                </button>
+
+                <button onClick={() => { this.heapSortWrapper(); }}>
+                    Heap Sort
                 </button>
             </div>
         );
