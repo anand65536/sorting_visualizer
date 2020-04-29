@@ -1,9 +1,9 @@
 .bar-container {
+    width: 1200px;
     height: 750px;
     position: relative;
-    top: 100px;
+    top: 80px;
     margin: auto;
-    width: 1200px;
     text-align: center;
 }
 

@@ -11,13 +11,15 @@ class App extends Component {
         super(props);
 
         this.state = {
-            array: []
+            array: [],
+            speed: 12
         };
 
         this.resetArray = this.resetArray.bind(this);
         this.bubbleSortWrapper = this.bubbleSortWrapper.bind(this);
         this.mergeSortWrapper = this.mergeSortWrapper.bind(this);
         this.heapSortWrapper = this.heapSortWrapper.bind(this);
+        this.updateSpeed = this.updateSpeed.bind(this);
     }
 
     componentDidMount() {
@@ -35,14 +37,24 @@ class App extends Component {
         this.setState({ array: randomArray });
     }
 
+    updateSpeed() {
+        let slider = document.getElementById("speed_slider");
+        console.log(slider.value);
+        this.setState({ speed: slider.value });
+    }
+
     mergeSortWrapper() {
         const currentState = [...this.state.array];
         const animations = mergeSort(currentState);
+        let speed = this.state.speed;
         const barsFromDom = document.getElementsByClassName("number-bar");
+        const navbar = document.getElementById("sort_navbar");
+        for (let button of navbar.getElementsByTagName("button")) {
+            button.disabled = true;
+        }
         for (let i = 0; i < animations.length; i++) {
             let [firstBar, secondBar] = animations[i][0];
             let swap = animations[i].length == 2;
-            let speed = 24;
             setTimeout(() => {
                 barsFromDom[firstBar].style["background-color"] = `aqua`;
                 barsFromDom[secondBar].style["background-color"] = `aqua`;
@@ -74,16 +86,25 @@ class App extends Component {
                 }, i * speed + speed / 2);
             }
         }
+        setTimeout(() => {
+            for (let button of navbar.getElementsByTagName("button")) {
+                button.disabled = false;
+            }
+        }, animations.length * speed);
     }
 
     bubbleSortWrapper() {
         const currentState = [...this.state.array];
         const animations = bubbleSort(currentState);
+        let speed = this.state.speed;
         const barsFromDom = document.getElementsByClassName("number-bar");
+        const navbar = document.getElementById("sort_navbar");
+        for (let button of navbar.getElementsByTagName("button")) {
+            button.disabled = true;
+        }
         for (let i = 0; i < animations.length; i++) {
             let [firstBar, secondBar] = animations[i].indexes;
             let swap = animations[i].swap;
-            let speed = 6;
             setTimeout(() => {
                 barsFromDom[firstBar].style["background-color"] = `aqua`;
                 barsFromDom[secondBar].style["background-color"] = `aqua`;
@@ -112,15 +133,24 @@ class App extends Component {
                 }, i * speed + speed / 2);
             }
         }
+        setTimeout(() => {
+            for (let button of navbar.getElementsByTagName("button")) {
+                button.disabled = false;
+            }
+        }, animations.length * speed);
     }
 
     heapSortWrapper() {
         const currentState = [...this.state.array];
         const animations = heapSort(currentState);
+        let speed = this.state.speed;
         const barsFromDom = document.getElementsByClassName("number-bar");
+        const navbar = document.getElementById("sort_navbar");
+        for (let button of navbar.getElementsByTagName("button")) {
+            button.disabled = true;
+        }
         for (let i = 0; i < animations.length; i++) {
             let [firstBar, secondBar] = animations[i];
-            let speed = 6;
             setTimeout(() => {
                 barsFromDom[firstBar].style["background-color"] = `aqua`;
                 barsFromDom[secondBar].style["background-color"] = `aqua`;
@@ -142,12 +172,17 @@ class App extends Component {
                 barsFromDom[secondBar].style["background-color"] = `blue`;
             }, i * speed + (speed * 3) / 4);
         }
+        setTimeout(() => {
+            for (let button of navbar.getElementsByTagName("button")) {
+                button.disabled = false;
+            }
+        }, animations.length * speed);
     }
 
     render() {
         return (
             <div>
-                <NavigationBar resetArray={this.resetArray} bubbleSort={this.bubbleSortWrapper} mergeSort={this.mergeSortWrapper} heapSort={this.heapSortWrapper} />
+                <NavigationBar resetArray={this.resetArray} bubbleSort={this.bubbleSortWrapper} mergeSort={this.mergeSortWrapper} heapSort={this.heapSortWrapper} updateSpeed={this.updateSpeed} />
                 <SortingVisualizer array={this.state.array} />
             </div>
         );
