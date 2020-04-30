@@ -39,7 +39,6 @@ class App extends Component {
 
     updateSpeed() {
         let slider = document.getElementById("speed_slider");
-        console.log(slider.value);
         this.setState({ speed: slider.value });
     }
 
